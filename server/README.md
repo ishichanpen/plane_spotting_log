@@ -5,27 +5,27 @@
 erDiagram
   airlines {
     int id PK
-    text name
+    varchar(20) name
     char(7) color_code "#rrggbb"
   }
 
   manufacturers {
     int id PK
-    string name
+    varchar(20) name
   }
 
   fleet {
     int id PK
     int manufacturer_id FK
-    char(20) name "probably enough characters"
-    char(20) variant "probably enough characters"
+    varchar(20) name "probably enough characters"
+    varchar(20) variant "probably enough characters"
   }
 
   airlines_fleet {
     int id PK
     int airline_id FK
     int fleet_id FK
-    char(20) registration "probably enough characters"
+    varchar(20) registration "probably enough characters"
     text livery
   }
 
