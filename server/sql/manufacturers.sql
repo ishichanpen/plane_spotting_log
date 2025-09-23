@@ -1,4 +1,4 @@
 CREATE TABLE manufacturers (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(20)
+  name VARCHAR(20) NOT NULL
 );
