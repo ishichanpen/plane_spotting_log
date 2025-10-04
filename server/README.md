@@ -5,13 +5,13 @@
 erDiagram
   airlines {
     int id PK
-    varchar(20) name
+    varchar(50) name
     char(7) color_code "#rrggbb"
   }
 
   manufacturers {
     int id PK
-    varchar(20) name
+    varchar(50) name
   }
 
   fleet {
