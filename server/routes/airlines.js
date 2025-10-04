@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { executeRouteHandler, executeQuery } from '../utils/executors.js';
-import { DataNotFoundError, InvalidRequestError } from '../utils/error.js';
+import { validate, validationMode } from '../utils/validators.js';
 
 // Express router
 const router = Router();
@@ -19,9 +19,7 @@ router.get('/get/:id', async (req, res) => {
     );
 
     // When the airline was not found
-    if (airlines.rows[0] === undefined) {
-      throw new DataNotFoundError();
-    }
+    validate(validationMode.dataNotFound, [airlines.rows[0]]);
 
     // returns airlines
     return airlines.rows[0];
@@ -51,6 +49,9 @@ router.post('/add', async (req, res) => {
     // Airline's color code
     const colorCode = req.body.color_code;
 
+    // Validates request
+    validate(validationMode.invalidRequest, [name, colorCode]);
+
     // Adds an airline
     const airline = await executeQuery(
       client,
@@ -76,9 +77,7 @@ router.put('/mod/:id', async (req, res) => {
     const colorCode = req.body.color_code;
 
     // Validates request
-    if (name === undefined || colorCode === undefined) {
-      throw new InvalidRequestError();
-    }
+    validate(validationMode.invalidRequest, [name, colorCode]);
 
     // Mods the airline
     const result = await executeQuery(
@@ -88,9 +87,7 @@ router.put('/mod/:id', async (req, res) => {
     );
 
     // When the airline was not found
-    if (result.rows[0] === undefined) {
-      throw new DataNotFoundError();
-    }
+    validate(validationMode.dataNotFound, [result.rows[0]]);
 
     // Returns edited airline
     return result.rows[0];
