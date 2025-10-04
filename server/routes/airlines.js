@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { executeRouteHandler, executeQuery } from '../utils/executors.js';
+import { noTransaction, transaction, executeQuery } from '../utils/executors.js';
 import { validate, validationMode } from '../utils/validators.js';
 
 // Express router
@@ -7,7 +7,7 @@ const router = Router();
 
 // Gets the airline
 router.get('/get/:id', async (req, res) => {
-  await executeRouteHandler(res, async (client) => {
+  await noTransaction(res, async (client) => {
     // Airline's ID
     const id = req.params.id;
 
@@ -28,7 +28,7 @@ router.get('/get/:id', async (req, res) => {
 
 // Gets all airlines
 router.get('/get_all', async (req, res) => {
-  await executeRouteHandler(res, async (client) => {
+  await noTransaction(res, async (client) => {
     // Gets airlines
     const airlines = await executeQuery(
       client,
@@ -42,7 +42,7 @@ router.get('/get_all', async (req, res) => {
 
 // Adds an airline
 router.post('/add', async (req, res) => {
-  await executeRouteHandler(res, async (client) => {
+  await transaction(res, async (client) => {
     // Airline's name
     const name = req.body.name;
 
@@ -61,12 +61,12 @@ router.post('/add', async (req, res) => {
 
     // Returns added airline
     return airline.rows[0];
-  }, true);
+  });
 });
 
 // Mods the airline
 router.put('/mod/:id', async (req, res) => {
-  await executeRouteHandler(res, async (client) => {
+  await transaction(res, async (client) => {
     // Airline's ID
     const id = req.params.id;
 
@@ -91,12 +91,12 @@ router.put('/mod/:id', async (req, res) => {
 
     // Returns edited airline
     return result.rows[0];
-  }, true);
+  });
 });
 
 // Deletes the airline
 router.delete('/delete/:id', async (req, res) => {
-  await executeRouteHandler(res, async (client) => {
+  await transaction(res, async (client) => {
     // Airline's ID
     const id = req.params.id;
 
@@ -109,7 +109,7 @@ router.delete('/delete/:id', async (req, res) => {
 
     // Returns success message
     return {result: 'Delete succeeded'};
-  }, true);
+  });
 });
 
 export default router;

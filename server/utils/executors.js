@@ -7,10 +7,10 @@ import { DataNotFoundError, InvalidRequestError } from "./error.js";
  * Handles errors and releases the database client automatically.
  *
  * @param {object} res Express response object
- * @param {function} callback Function to do something with database client
+ * @param {function} handler Function to do something with database client
  * @param {boolean} transaction Whether to use transaction
  */
-export async function executeRouteHandler(res, callback, transaction = false) {
+async function executeHandler(res, handler, transaction) {
   // Database client
   let client;
 
@@ -22,7 +22,7 @@ export async function executeRouteHandler(res, callback, transaction = false) {
     if (transaction) await executeQuery(client, 'BEGIN');
 
     // Executes callback
-    const result = await callback(client);
+    const result = await handler(client);
 
     // Executes COMMIT statement
     if (transaction) await executeQuery(client, 'COMMIT');
@@ -57,6 +57,20 @@ export async function executeRouteHandler(res, callback, transaction = false) {
       client.release();
     }
   }
+}
+
+/**
+ * Executes a route handler without transaction.
+ */
+export async function noTransaction(res, handler) {
+  return await executeHandler(res, handler, false);
+}
+
+/**
+ * Executes a route handler with transaction.
+ */
+export async function transaction(res, handler) {
+  return await executeHandler(res, handler, true);
 }
 
 /**
