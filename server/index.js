@@ -3,6 +3,7 @@ import express from 'express';
 import { Pool } from 'pg';
 import airlinesRouter from './routes/airlines.js';
 import manufacturersRouter from './routes/manufacturers.js';
+import { logger } from './utils/logger.js';
 
 // Creates express application
 const app = express();
@@ -10,6 +11,8 @@ const app = express();
 // Binds middleware
 // Lets express parse requests with JSON
 app.use(express.json());
+// Logs time and requested url
+app.use('/', logger);
 // Mounts the airlines router
 app.use('/airlines', airlinesRouter);
 // Mounts the manufacturers router
