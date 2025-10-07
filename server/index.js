@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { Pool } from 'pg';
 import airlinesRouter from './routes/airlines.js';
+import manufacturersRouter from './routes/manufacturers.js';
 
 // Creates express application
 const app = express();
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 // Mounts the airlines router
 app.use('/airlines', airlinesRouter);
+// Mounts the manufacturers router
+app.use('/manufacturers', manufacturersRouter);
 
 // Express official website uses 3000
 const port = 3000;
