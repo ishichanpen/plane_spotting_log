@@ -3,6 +3,7 @@ import express from 'express';
 import { Pool } from 'pg';
 import airlinesRouter from './routes/airlines.js';
 import manufacturersRouter from './routes/manufacturers.js';
+import fleetRouter from './routes/fleet.js';
 import { logger } from './utils/logger.js';
 
 // Creates express application
@@ -17,6 +18,8 @@ app.use('/', logger);
 app.use('/airlines', airlinesRouter);
 // Mounts the manufacturers router
 app.use('/manufacturers', manufacturersRouter);
+// Mounts the fleet router
+app.use('/fleet', fleetRouter);
 
 // Express official website uses 3000
 const port = 3000;
