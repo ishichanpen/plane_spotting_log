@@ -1,5 +1,5 @@
-import { pool } from "../index.js";
-import { DataNotFoundError, InvalidRequestError } from "./error.js";
+import { pool } from '../index.js';
+import { DataNotFoundError, InvalidRequestError } from './error.js';
 
 /**
  * Executes a route handler.
@@ -29,9 +29,8 @@ async function executeHandler(res, handler, transaction) {
 
     // Sends a response
     res.status(200).json(result);
-  }
-  // Error handling
-  catch (error) {
+  } catch (error) {
+    // Error handling
     // Logs for debugging purposes
     console.log(error);
 
@@ -48,10 +47,11 @@ async function executeHandler(res, handler, transaction) {
     const responseInformation = getResponseInformation(error);
 
     // Sends a response
-    res.status(responseInformation.code).json({ error: responseInformation.message });
-  }
-  // Cleanup
-  finally {
+    res
+      .status(responseInformation.code)
+      .json({ error: responseInformation.message });
+  } finally {
+    // Cleanup
     // Releases client
     if (client !== undefined) {
       client.release();
@@ -90,17 +90,15 @@ function getResponseInformation(error) {
   if (error instanceof DataNotFoundError) {
     statusCode = 404;
     errorMessage = 'Not Found';
-  }
-  else if (error instanceof InvalidRequestError) {
+  } else if (error instanceof InvalidRequestError) {
     statusCode = 400;
     errorMessage = 'Invalid Request';
-  }
-  else {
+  } else {
     statusCode = 500;
     errorMessage = 'Database Error Occurred';
   }
 
-  return { 'code': statusCode, 'message': errorMessage };
+  return { code: statusCode, message: errorMessage };
 }
 
 /**
