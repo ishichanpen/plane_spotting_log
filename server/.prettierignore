@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+coverage
+
+# non-javascript files
+sql
+.prettierrc
+package-lock.json
+package.json
+README.md

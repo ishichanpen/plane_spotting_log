@@ -1,6 +1,10 @@
-import { Router } from "express";
-import { executeQuery, noTransaction, transaction } from "../utils/executors.js";
-import { validate, validationMode } from "../utils/validators.js";
+import { Router } from 'express';
+import {
+  executeQuery,
+  noTransaction,
+  transaction,
+} from '../utils/executors.js';
+import { validate, validationMode } from '../utils/validators.js';
 
 // Express router
 const router = Router();
@@ -14,7 +18,7 @@ router.get('/get/:id', async (req, res) => {
     const fleet = await executeQuery(
       client,
       'SELECT * FROM fleet WHERE ID = $1',
-      [id],
+      [id]
     );
 
     // When the fleet was not found
@@ -31,7 +35,7 @@ router.get('/get_all', async (req, res) => {
     // Gets fleets
     const fleets = await executeQuery(
       client,
-      'SELECT * FROM fleet ORDER BY ID',
+      'SELECT * FROM fleet ORDER BY ID'
     );
 
     // returns fleets
@@ -58,7 +62,7 @@ router.post('/add', async (req, res) => {
     const fleet = await executeQuery(
       client,
       'INSERT INTO fleet (manufacturer_id, name, variant) VALUES ($1, $2, $3) RETURNING *',
-      [manufacturerId, name, variant],
+      [manufacturerId, name, variant]
     );
 
     // Returns added fleet
@@ -88,7 +92,7 @@ router.put('/mod/:id', async (req, res) => {
     const result = await executeQuery(
       client,
       'UPDATE fleet SET manufacturer_id = $1, name = $2, variant = $3 WHERE ID = $4 RETURNING *',
-      [manufacturerId, name, variant, id],
+      [manufacturerId, name, variant, id]
     );
 
     // When the fleet was not found
@@ -106,14 +110,10 @@ router.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
 
     // Deletes the fleet
-    await executeQuery(
-      client,
-      'DELETE FROM fleet WHERE ID = $1',
-      [id],
-    );
+    await executeQuery(client, 'DELETE FROM fleet WHERE ID = $1', [id]);
 
     // Returns success message
-    return {result: 'Delete succeeded'};
+    return { result: 'Delete succeeded' };
   });
 });
 

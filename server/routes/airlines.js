@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { noTransaction, transaction, executeQuery } from '../utils/executors.js';
+import {
+  noTransaction,
+  transaction,
+  executeQuery,
+} from '../utils/executors.js';
 import { validate, validationMode } from '../utils/validators.js';
 
 // Express router
@@ -15,7 +19,7 @@ router.get('/get/:id', async (req, res) => {
     const airlines = await executeQuery(
       client,
       'SELECT * FROM airlines WHERE ID = $1',
-      [id],
+      [id]
     );
 
     // When the airline was not found
@@ -32,7 +36,7 @@ router.get('/get_all', async (req, res) => {
     // Gets airlines
     const airlines = await executeQuery(
       client,
-      'SELECT * FROM airlines ORDER BY ID',
+      'SELECT * FROM airlines ORDER BY ID'
     );
 
     // returns airlines
@@ -56,7 +60,7 @@ router.post('/add', async (req, res) => {
     const airline = await executeQuery(
       client,
       'INSERT INTO airlines (name, color_code) VALUES ($1, $2) RETURNING *',
-      [name, colorCode],
+      [name, colorCode]
     );
 
     // Returns added airline
@@ -83,7 +87,7 @@ router.put('/mod/:id', async (req, res) => {
     const result = await executeQuery(
       client,
       'UPDATE airlines SET name=$1, color_code=$2 WHERE ID = $3 RETURNING *',
-      [name, colorCode, id],
+      [name, colorCode, id]
     );
 
     // When the airline was not found
@@ -101,14 +105,10 @@ router.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
 
     // Deletes the airline
-    await executeQuery(
-      client,
-      'DELETE FROM airlines WHERE ID = $1',
-      [id],
-    );
+    await executeQuery(client, 'DELETE FROM airlines WHERE ID = $1', [id]);
 
     // Returns success message
-    return {result: 'Delete succeeded'};
+    return { result: 'Delete succeeded' };
   });
 });
 

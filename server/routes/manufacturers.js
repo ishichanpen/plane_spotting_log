@@ -1,6 +1,10 @@
-import { Router } from "express";
-import { executeQuery, noTransaction, transaction } from "../utils/executors.js";
-import { validate, validationMode } from "../utils/validators.js";
+import { Router } from 'express';
+import {
+  executeQuery,
+  noTransaction,
+  transaction,
+} from '../utils/executors.js';
+import { validate, validationMode } from '../utils/validators.js';
 
 // Express router
 const router = Router();
@@ -14,7 +18,7 @@ router.get('/get/:id', async (req, res) => {
     const manufacturer = await executeQuery(
       client,
       'SELECT * FROM manufacturers WHERE ID = $1',
-      [id],
+      [id]
     );
 
     // When the manufacturer was not found
@@ -31,7 +35,7 @@ router.get('/get_all', async (req, res) => {
     // Gets manufacturers
     const manufacturers = await executeQuery(
       client,
-      'SELECT * FROM manufacturers ORDER BY ID',
+      'SELECT * FROM manufacturers ORDER BY ID'
     );
 
     // returns manufacturers
@@ -52,7 +56,7 @@ router.post('/add', async (req, res) => {
     const manufacturer = await executeQuery(
       client,
       'INSERT INTO manufacturers (name) VALUES ($1) RETURNING *',
-      [name],
+      [name]
     );
 
     // Returns added manufacturer
@@ -76,7 +80,7 @@ router.put('/mod/:id', async (req, res) => {
     const result = await executeQuery(
       client,
       'UPDATE manufacturers SET name=$1 WHERE ID = $2 RETURNING *',
-      [name, id],
+      [name, id]
     );
 
     // When the manufacturer was not found
@@ -94,14 +98,10 @@ router.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
 
     // Deletes the manufacturer
-    await executeQuery(
-      client,
-      'DELETE FROM manufacturers WHERE ID = $1',
-      [id],
-    );
+    await executeQuery(client, 'DELETE FROM manufacturers WHERE ID = $1', [id]);
 
     // Returns success message
-    return {result: 'Delete succeeded'};
+    return { result: 'Delete succeeded' };
   });
 });
 

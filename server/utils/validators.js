@@ -1,4 +1,4 @@
-import { DataNotFoundError, InvalidRequestError } from "./error.js";
+import { DataNotFoundError, InvalidRequestError } from './error.js';
 
 /**
  * Validates whether none of values are not undefined.
@@ -9,7 +9,7 @@ import { DataNotFoundError, InvalidRequestError } from "./error.js";
  */
 export function validate(mode, values) {
   // Validation
-  if (!values.some(arg => arg === undefined)) {
+  if (!values.some((arg) => arg === undefined)) {
     return;
   }
 
@@ -30,4 +30,4 @@ export function validate(mode, values) {
 export const validationMode = {
   invalidRequest: 0,
   dataNotFound: 1,
-}
+};
