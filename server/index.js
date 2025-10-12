@@ -6,6 +6,7 @@ import manufacturersRouter from './routes/manufacturers.js';
 import fleetRouter from './routes/fleet.js';
 import locationRouter from './routes/location.js';
 import airlinesFleetRouter from './routes/airlines_fleet.js';
+import spottingLogRouter from './routes/spotting_log.js';
 import { logger } from './utils/logger.js';
 
 // Creates express application
@@ -26,6 +27,8 @@ app.use('/fleet', fleetRouter);
 app.use('/location', locationRouter);
 // Mount the airlines_fleet router
 app.use('/airlines_fleet', airlinesFleetRouter);
+// Mount the spotting log router
+app.use('/spotting_log', spottingLogRouter);
 
 // Express official website uses 3000
 const port = 3000;
