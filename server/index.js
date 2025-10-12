@@ -5,6 +5,7 @@ import airlinesRouter from './routes/airlines.js';
 import manufacturersRouter from './routes/manufacturers.js';
 import fleetRouter from './routes/fleet.js';
 import locationRouter from './routes/location.js';
+import airlinesFleetRouter from './routes/airlines_fleet.js';
 import { logger } from './utils/logger.js';
 
 // Creates express application
@@ -23,6 +24,8 @@ app.use('/manufacturers', manufacturersRouter);
 app.use('/fleet', fleetRouter);
 // Mounts the location router
 app.use('/location', locationRouter);
+// Mount the airlines_fleet router
+app.use('/airlines_fleet', airlinesFleetRouter);
 
 // Express official website uses 3000
 const port = 3000;
